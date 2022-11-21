@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+   <title> 493 Artist Search</title>
+   <!--Bootstrap-->
+   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+      integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+      integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+   <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+      integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+      integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+      crossorigin="anonymous"></script>
+   <!--Custom Style-->
+   <link rel="stylesheet" type="text/css" href="index.css">
+   <!--Vue-->
+   <script src="https://unpkg.com/vue@3"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
+</head>
+
+<body>
+   <div id='app'>
+      <nav class="navbar navbar-default">
+         <div class="container">
+            <div class="navbar-header">
+               <h3>493 Artist Search</h3>
+            </div>
+         </div>
+      </nav>
+      <div class="container">
+         <div class="row searchbar">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+               <h4>Enter the name of the artist and press enter: </h4>
+               <input v-on:keyup.enter="searchArtist" v-model="term" type="text">
+            </div>
+         </div>
+
+         <div class="col-lg-12 col-md-12 col-sm-12">
+            <div>
+               <button class="btn btn-success">ALL</button>
+               <button class="btn btn-default active" v-for="genre in genres" variant="primary">{{genre}}</button>
+            </div>
+            <!-- <div v-for="genre in genres">
+               <button class="btn btn-success">{{genre}}</button>
+            </div> -->
+            <h4>
+               List of results
+            </h4>
+         </div>
+         <div v-for="(entry, index) in data">
+            <div class='col-lg-6 col-md-6 col-sm-6 artist'>
+               <!-- <h1>{{entry.artistName}}</h1> -->
+               <div class='artist-albumcover col-sm-4'>
+                  <img v-bind:src="entry.artworkUrl100">
+               </div>
+
+               <div class='artist-info col-sm-6'>
+                  <ul class="nav nav-tabs">
+                     <li class="active"><a v-bind:href="'#desc' + index" data-toggle="tab">Description</a></li>
+                     <li><a v-bind:href="'#info' + index" data-toggle="tab">Track Info</a></li>
+                  </ul>
+                  <div class="tab-content">
+                     <div class="tab-pane active" v-bind:id="'desc' + index">
+                        <div v-if="entry.artistName">
+                           <b>Artist Name: </b> {{entry.artistName}}
+                        </div>
+                        <div v-else>
+                           <b>Artist Name: </b> No information provided
+                        </div>
+                        <div v-if="entry.collectionName">
+                           <b>Collection Name: </b> {{entry.collectionName}}
+                        </div>
+                        <div v-else>
+                           <b>Collection Name: </b> No information provided
+                        </div>
+                        <div v-if="entry.trackPrice">
+                           <b>Price: </b> {{entry.trackPrice}}
+                        </div>
+                        <div v-else>
+                           <b>Price: </b> 0
+                        </div>
+                        <div v-if="entry.kind">
+                           <b>Kind: </b> {{entry.kind}}
+                        </div>
+                        <div v-else>
+                           <b>Kind: </b> No information provided
+                        </div>
+                        <div v-if="entry.previewUrl">
+                           <b>Preview: </b> <a :href="entry.previewUrl">Link</a>
+                        </div>
+                        <div v-else>
+                           <b>Preview: </b> No information provided
+                        </div>
+                     </div>
+                     <div class="tab-pane" v-bind:id="'info' + index">
+                        <b>Track ID: </b> {{entry.trackId}}
+                        <br>
+                        <b>Country: </b> {{entry.country}}
+                        <br>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+   <script src="script.js"></script>
+</body>
+
+</html>
