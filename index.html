@@ -38,18 +38,29 @@
          </div>
 
          <div class="col-lg-12 col-md-12 col-sm-12">
+            <h3>
+               Search Result (Total {{shown.length}} Found.)
+            </h3>
             <div>
-               <button class="btn btn-success">ALL</button>
-               <button class="btn btn-default active" v-for="genre in genres" variant="primary">{{genre}}</button>
+               <!-- <button :class="genres[0]['clicked'] ? 'btn btn-success' : 'btn btn-default active'" @click="btnClick(0)" >ALL</button>  -->
+               <button :class="genres[index]['clicked'] ? 'btn btn-success' : 'btn btn-default active'" @click="btnClick(index)" v-for="(genre, index) in genres" variant="primary">{{genre['genre']}}</button>
             </div>
-            <!-- <div v-for="genre in genres">
-               <button class="btn btn-success">{{genre}}</button>
-            </div> -->
             <h4>
                List of results
             </h4>
+            <div class="dropdown">
+               <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                  Sort list of results by: 
+                 <span class="caret"></span>
+               </button>
+               <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                 <li :class="sort[0] ? 'active' : ''"><a @click="sortBy(0)" >Reset to original</a></li>
+                 <li :class="sort[1] ? 'active' : ''"><a @click="sortBy(1)">Collection Name</a></li>
+                 <li :class="sort[2] ? 'active' : ''"><a @click="sortBy(2)">Price</a></li>
+               </ul>
+             </div>
          </div>
-         <div v-for="(entry, index) in data">
+         <div v-for="(entry, index) in shown">
             <div class='col-lg-6 col-md-6 col-sm-6 artist'>
                <!-- <h1>{{entry.artistName}}</h1> -->
                <div class='artist-albumcover col-sm-4'>
@@ -75,8 +86,8 @@
                         <div v-else>
                            <b>Collection Name: </b> No information provided
                         </div>
-                        <div v-if="entry.trackPrice">
-                           <b>Price: </b> {{entry.trackPrice}}
+                        <div v-if="entry.collectionPrice">
+                           <b>Price: </b> {{entry.collectionPrice}}
                         </div>
                         <div v-else>
                            <b>Price: </b> 0
